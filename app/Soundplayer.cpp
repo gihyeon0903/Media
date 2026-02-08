@@ -9,6 +9,12 @@ void Soundplayer_main() {
     std::cout << "Request setDataSource" << std::endl;
     player.setDataSource("res/test2.wav");
 
+    std::cout << "Request setVolume(0.1)" << std::endl;
+    player.setVolume((float)0.1);
+
+    std::cout << "Request setSampleRate(44100)" << std::endl;
+    player.setSampleRate(44100);
+
     std::cout << "Request prepare" << std::endl;
     player.prepare();
 
@@ -16,6 +22,8 @@ void Soundplayer_main() {
     player.start();
     
     Sleep(1000);
+    std::cout << "Request setVolume(0.7)" << std::endl;
+    player.setVolume((float)0.7);
     std::cout << "Request pause" << std::endl;
     player.pause();
 

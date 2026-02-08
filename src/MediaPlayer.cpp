@@ -22,6 +22,8 @@ const char* PlayerStateTable[] = {
 MediaPlayer::MediaPlayer() {
     mState = PLAYER_STATE_IDLE;
     mPath = "";
+    mSampleRate = 16000;
+    mVolume = 5;
 }
 
 MediaPlayer::~MediaPlayer() {
@@ -57,7 +59,9 @@ bool MediaPlayer::prepare() {
         return false;
     }
 
-    ma_result_ = ma_engine_init(NULL, &engine);
+    engineConfig = ma_engine_config_init();
+    engineConfig.sampleRate = mSampleRate;
+    ma_result_ = ma_engine_init(&engineConfig, &engine);
     if (ma_result_ != MA_SUCCESS) {
         std::cout << "Failed to initialize audio engine." << std::endl;
         return false;
@@ -74,6 +78,8 @@ bool MediaPlayer::prepare() {
         std::cout << "Failed to set end callback." << std::endl;
         return false;
     }
+
+    ma_sound_set_volume(&sound, mVolume);
 
     mState = PLAYER_STATE_PREPARED;
     return true;
@@ -147,4 +153,31 @@ bool MediaPlayer::pause() {
     mState = PLAYER_STATE_PAUSED;
     return true;
 }
+
+bool MediaPlayer::setSampleRate(int sampleRate) {
+    if (mState >= PLAYER_STATE_PREPARED) {
+        std::cout << "PLAYER_STATE is not wrong(mCulState : " << PlayerStateTable[mState] << ")" << std::endl;
+        return false;
+    }
+
+    mSampleRate = sampleRate;
+    return true;
+}
+
+bool MediaPlayer::setVolume(float volume) {
+    mVolume = volume;
+    if (mState >= PLAYER_STATE_PREPARED) {
+        ma_sound_set_volume(&sound, mVolume);
+    }
+    return true;
+}
+
+// bool MediaPlayer::SeekTo(int nsec) {
+//     int sampleRate;
+
+//     ma_result_ = ma_sound_get_data_format(&sound, NULL, NULL, &sampleRate, NULL, 0);
+//     if (result != MA_SUCCESS) {
+//         return false;
+//     }
+// }
 } // namespace media
