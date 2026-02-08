@@ -29,7 +29,7 @@ public:
     bool pause();
     bool setSampleRate(int sampleRate);
     bool setVolume(float volume);
-    // bool seekTo(int msec);
+    bool seekTo(int msec);
 
     // miniaudio callback func should register C style function, So, We need to use static function.
     // And callback_handler can not acces member variable directly, So, We need to pass player and call playback_completed.

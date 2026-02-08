@@ -172,12 +172,26 @@ bool MediaPlayer::setVolume(float volume) {
     return true;
 }
 
-// bool MediaPlayer::SeekTo(int nsec) {
-//     int sampleRate;
+bool MediaPlayer::seekTo(int msec) {
+    if (mState != PLAYER_STATE_PREPARED && mState != PLAYER_STATE_STARTED \
+        && mState != PLAYER_STATE_PAUSED && mState != PLAYER_STATE_PLAYBACK_COMPLETE) {
+        std::cout << "PLAYER_STATE is not wrong(mCulState : " << PlayerStateTable[mState] << ")" << std::endl;
+        return false;
+    }
+    
+    ma_uint32 sampleRate;
+    ma_result_ = ma_sound_get_data_format(&sound, NULL, NULL, &sampleRate, NULL, 0);
+    if (ma_result_ != MA_SUCCESS) {
+        std::cout << "Failed to get sample rate." << std::endl;
+        return false;
+    }
 
-//     ma_result_ = ma_sound_get_data_format(&sound, NULL, NULL, &sampleRate, NULL, 0);
-//     if (result != MA_SUCCESS) {
-//         return false;
-//     }
-// }
+    ma_uint64 frameIndex = (ma_uint64)msec * sampleRate / 1000;
+    ma_result_ = ma_sound_seek_to_pcm_frame(&sound, frameIndex);
+    if (ma_result_ != MA_SUCCESS) {
+        std::cout << "Failed to seek to frame." << std::endl;
+        return false;
+    }
+    return true;
+}
 } // namespace media
