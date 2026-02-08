@@ -6,34 +6,37 @@
 void Soundplayer_main() {
     media::MediaPlayer player;
 
-    std::cout << "setDataSource" << std::endl;
+    std::cout << "Request setDataSource" << std::endl;
     player.setDataSource("res/test2.wav");
 
-    std::cout << "prepare" << std::endl;
+    std::cout << "Request prepare" << std::endl;
     player.prepare();
 
-    std::cout << "start" << std::endl;
+    std::cout << "Request start" << std::endl;
     player.start();
     
-    Sleep(2000);
-    std::cout << "pause" << std::endl;
+    Sleep(1000);
+    std::cout << "Request pause" << std::endl;
     player.pause();
 
-    Sleep(2000);
-    std::cout << "start" << std::endl;
+    Sleep(1000);
+    std::cout << "Request start" << std::endl;
     player.start();
 
 
-    Sleep(2000);
-    std::cout << "pause" << std::endl;
+    Sleep(1000);
+    std::cout << "Request pause" << std::endl;
     player.pause();
 
-    Sleep(2000);    
-    std::cout << "start" << std::endl;
+    Sleep(1000);    
+    std::cout << "Request start" << std::endl;
     player.start();
 
 
-    Sleep(5000);
+    while(player.getState() != media::PLAYER_STATE_PLAYBACK_COMPLETE) {
+        std::cout << "wait playback complete...." << std::endl;
+        Sleep(1000);
+    }
 
     std::cout << "soundplayer exit" << std::endl;
 

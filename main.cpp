@@ -8,7 +8,7 @@ int main() {
     InitCommands();
 
     std::string command;
-    std::cout << "Enter command (hello, exit): " << std::endl;
+    std::cout << "Enter command (soundplayer): " << std::endl;
 
     while (true) {
         std::cout << "> ";

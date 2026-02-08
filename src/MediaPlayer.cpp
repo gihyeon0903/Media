@@ -105,10 +105,6 @@ void MediaPlayer::callback_handler(void* pPlayer, ma_sound* pSound) {
 }
 
 void MediaPlayer::playback_completed() {
-    // return type of ma_sound_uninit and ma_engine_uninit is void.
-    ma_sound_uninit(&sound);
-    ma_engine_uninit(&engine);
-
     mState = PLAYER_STATE_PLAYBACK_COMPLETE;
     return;
 }
