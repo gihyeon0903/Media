@@ -1,0 +1,11 @@
+
+# Executables
+main.exe
+Command
+
+# Build Directories
+bin/
+build/
+
+# Agent Files
+.agent/
